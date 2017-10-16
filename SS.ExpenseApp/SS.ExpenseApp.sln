@@ -16,6 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.ExpenseApp.Service", "SS
 		{D5784E6D-3A1B-425B-9C61-05B557A885D0} = {D5784E6D-3A1B-425B-9C61-05B557A885D0}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS.ExpenseApp.Web", "SS.ExpenseApp.Web\SS.ExpenseApp.Web.csproj", "{68D3D049-11CC-47E7-998A-B72A6A264965}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3D3CF220-F1AD-4210-A983-0640665FD0FC} = {3D3CF220-F1AD-4210-A983-0640665FD0FC}
+		{D5784E6D-3A1B-425B-9C61-05B557A885D0} = {D5784E6D-3A1B-425B-9C61-05B557A885D0}
+		{3ACC3ED8-FDB8-468A-87EB-1B56A77A2BB8} = {3ACC3ED8-FDB8-468A-87EB-1B56A77A2BB8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +41,10 @@ Global
 		{3ACC3ED8-FDB8-468A-87EB-1B56A77A2BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ACC3ED8-FDB8-468A-87EB-1B56A77A2BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ACC3ED8-FDB8-468A-87EB-1B56A77A2BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68D3D049-11CC-47E7-998A-B72A6A264965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68D3D049-11CC-47E7-998A-B72A6A264965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68D3D049-11CC-47E7-998A-B72A6A264965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68D3D049-11CC-47E7-998A-B72A6A264965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

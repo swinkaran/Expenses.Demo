@@ -21,7 +21,7 @@ namespace SS.ExpenseApp.Web.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("ExpenseEntities", throwIfV1Schema: false)
         {
         }
 

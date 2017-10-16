@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SS.ExpenseApp.BusinessEntities
 {
@@ -13,6 +14,8 @@ namespace SS.ExpenseApp.BusinessEntities
         public long Id { get; set; }
 
         public string ReceiptNumber { get; set; }
+
+        [DataType(DataType.Date)]
         public DateTime ReceiptDate { get; set; }
         public string Description { get; set; }
         public decimal Amount { get; set; }

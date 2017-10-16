@@ -27,12 +27,16 @@ namespace SS.ExpenseApp.Service
         public void CreateExpense(Expense expense, long UserId)
         {
             // Get the employee
-            Employee employee = employeeRepository.GetById(1);
-
+            Employee employee = employeeRepository.GetById(UserId);
             expense.Employee = employee;
-            expense.ApprovalStatus = Expense.Status.Submitted;
+            expense.ApprovalStatus = Expense.Status.Submitted; // Always 'Submitted' when creating
 
             expenseRepository.Add(expense);
+
+            //  Send Email to the managers
+
+            //  Add a notification to be triggered in 48 hours
+
         }
 
         public Expense GetExpense(long id)
@@ -40,7 +44,7 @@ namespace SS.ExpenseApp.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Expense> GetExpenses(long employeeId)
+        public IEnumerable<Expense> GetExpenses()
         {
             IList<Expense> expenses = expenseRepository.GetAll().ToList();
 
@@ -50,18 +54,17 @@ namespace SS.ExpenseApp.Service
         public void SaveExpense()
         {
             unitOfWork.Commit();
-            throw new NotImplementedException();
         }
 
         public void UpdateExpense(Expense expense)
         {
-            throw new NotImplementedException();
+            expenseRepository.Update(expense);
         }
     }
 
     public interface IExpenseService
     {
-        IEnumerable<Expense> GetExpenses(long employeeId);
+        IEnumerable<Expense> GetExpenses();
         Expense GetExpense(long id);
         void CreateExpense(Expense expense, long userId);
         void UpdateExpense(Expense expense);

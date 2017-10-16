@@ -41,7 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpenseService.cs" />
+    <Compile Include="NotificationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SS.ExpenseApp.BusinessEntities\SS.ExpenseApp.BusinessEntities.csproj">
+      <Project>{3d3cf220-f1ad-4210-a983-0640665fd0fc}</Project>
+      <Name>SS.ExpenseApp.BusinessEntities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SS.ExpenseApp.Data\SS.ExpenseApp.Data.csproj">
+      <Project>{d5784e6d-3a1b-425b-9c61-05b557a885d0}</Project>
+      <Name>SS.ExpenseApp.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

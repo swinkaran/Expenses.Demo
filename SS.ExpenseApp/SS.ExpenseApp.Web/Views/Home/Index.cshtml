@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<SS.ExpenseApp.BusinessEntities.Expense>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -8,24 +10,57 @@
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+<h2>My Expenses</h2>
+
+<p>
+    @Html.ActionLink("Add New", "Create")
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiptNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceiptDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReimbursementAmount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var expense in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.ReceiptNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.ReceiptDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.ReimbursementAmount)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = expense.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = expense.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = expense.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

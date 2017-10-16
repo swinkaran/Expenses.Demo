@@ -18,8 +18,6 @@ namespace SS.ExpenseApp.Data.Configuration
             HasKey(e => e.Id);
 
             // Defining the properties
-            Property(e => e.Amount).IsRequired();
-            Property(e => e.ReceiptDate).IsRequired();
         }
     }
 }
