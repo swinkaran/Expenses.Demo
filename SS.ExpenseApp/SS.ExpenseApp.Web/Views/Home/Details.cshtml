@@ -3,14 +3,21 @@
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string Role = ViewBag.Role;
 }
-
-<h2>Details</h2>
 
 <div>
     <h4>Expense</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee.Name)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.ReceiptNumber)
         </dt>
@@ -56,10 +63,14 @@
 <p>
     @if (User.Identity.IsAuthenticated)
     {
-        if (1==1)
+        if (Role == "Manager")
         {
             @Html.ActionLink("Reject request", "Reject", new { id = Model.Id })
             @Html.ActionLink("Approve request", "Approve", new { id = Model.Id })
+        }
+        else if (Role == "Finance")
+        {
+            @Html.ActionLink("Reimburse", "Reimburse", new { id = Model.Id })
         }
     }
 </p>

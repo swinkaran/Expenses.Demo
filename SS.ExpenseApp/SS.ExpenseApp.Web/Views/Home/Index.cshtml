@@ -19,6 +19,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Employee.Name)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.ReceiptNumber)
             </th>
             <th>
@@ -33,6 +36,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReimbursementAmount)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovalStatus)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -40,6 +46,9 @@
         @foreach (var expense in Model)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => expense.Employee.Name)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => expense.ReceiptNumber)
                 </td>
@@ -56,9 +65,10 @@
                     @Html.DisplayFor(modelItem => expense.ReimbursementAmount)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = expense.Id }) |
+                    @Html.DisplayFor(modelItem => expense.ApprovalStatus)
+                </td>
+                <td>
                     @Html.ActionLink("Details", "Details", new { id = expense.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = expense.Id })
                 </td>
             </tr>
         }
