@@ -33,6 +33,7 @@ namespace SS.ExpenseApp.Web.Controllers
         public ActionResult Index()
         {
             currentRole = this.GetCurrentRole();
+            ViewBag.Role = currentRole;
 
             if (currentRole == "Manager")
             {
@@ -127,7 +128,7 @@ namespace SS.ExpenseApp.Web.Controllers
         }
 
         // POST: Approve/5
-        [HttpPost]
+        [Authorize]
         public ActionResult Reject(long id)
         {
             try
@@ -177,20 +178,6 @@ namespace SS.ExpenseApp.Web.Controllers
                 return role;
             }
             return null;
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }
