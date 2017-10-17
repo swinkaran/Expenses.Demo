@@ -59,6 +59,12 @@ namespace SS.ExpenseApp.Service
         public void UpdateExpense(Expense expense)
         {
             expenseRepository.Update(expense);
+
+            if (expense.ApprovalStatus == Expense.Status.Reimbursed)
+            {
+                // Notify the employee via email
+
+            }
         }
     }
 

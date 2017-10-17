@@ -10,6 +10,7 @@ using System.Security.Claims;
 
 namespace SS.ExpenseApp.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         static List<Expense> expenses;
@@ -28,42 +29,78 @@ namespace SS.ExpenseApp.Web.Controllers
             return expenseService.GetExpenses().ToList();
         }
 
-        [Authorize]
         // GET: List all Expense
         public ActionResult Index()
         {
             currentRole = this.GetCurrentRole();
             ViewBag.Role = currentRole;
 
+            SS.ExpenseApp.Web.Models.IndexVM ivm = new Models.IndexVM();
+            
             if (currentRole == "Manager")
             {
                 // Filter only the Status = Submitted
-                return View(expenses.
-                    Where(e => e.ApprovalStatus == Expense.Status.Submitted).ToList());
+                ivm.Expenses = expenses.
+                    Where(e => e.ApprovalStatus == Expense.Status.Submitted).ToList();
             }
 
             else if (currentRole == "Finance")
             {
                 // Filter only the Status = Submitted
-                return View(expenses.
-                    Where(e => e.ApprovalStatus == Expense.Status.Approved).ToList());
+                ivm.Expenses = expenses.
+                    Where(e => e.ApprovalStatus == Expense.Status.Approved).ToList();
             }
             else
             {
-                return View(expenses.
-                    Where(e => e.Employee.Id == this.GetCurrentUserId()).ToList());
+                ivm.Expenses = expenses.
+                    Where(e => e.Employee.Id == this.GetCurrentUserId()).ToList();
             }
+
+            return View(ivm);
+        }
+
+        [HttpPost]
+        public ActionResult Index(FormCollection collection)
+        {
+            currentRole = this.GetCurrentRole();
+            ViewBag.Role = currentRole;
+
+            expenses = String.IsNullOrEmpty(collection["StartDate"]) ? expenses: expenses.Where(e => e.ReceiptDate > Convert.ToDateTime(collection["StartDate"])).ToList();
+            expenses = String.IsNullOrEmpty(collection["EndDate"]) ? expenses: expenses.Where(e => e.ReceiptDate < Convert.ToDateTime(collection["EndDate"])).ToList();
+            
+            SS.ExpenseApp.Web.Models.IndexVM ivm = new Models.IndexVM();
+
+            if (currentRole == "Manager")
+            {
+                // Filter only the Status = Submitted
+                ivm.Expenses = expenses.
+                    Where(e => e.ApprovalStatus == Expense.Status.Submitted).ToList();
+            }
+
+            else if (currentRole == "Finance")
+            {
+                // Filter only the Status = Submitted
+                ivm.Expenses = expenses.
+                    Where(e => e.ApprovalStatus == Expense.Status.Approved).ToList();
+            }
+            else
+            {
+                ivm.Expenses = expenses.
+                    Where(e => e.Employee.Id == this.GetCurrentUserId()).ToList();
+            }
+
+            return View(ivm);
         }
 
         // Employee
-        [Authorize(Roles = "Employee")]
         // GET: Expense/Create
         public ActionResult Create()
         {
+            currentRole = this.GetCurrentRole();
             return View();
         }
 
-        [Authorize(Roles = "Employee")]
+        [Authorize]
         // POST: Expense/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
@@ -99,6 +136,8 @@ namespace SS.ExpenseApp.Web.Controllers
             var expense = expenses.Where(e => e.Id == id).ToList().FirstOrDefault();
             if (expense != null)
             {
+                currentRole = this.GetCurrentRole();
+                ViewBag.Role = currentRole;
                 return View(expense);
             }
             return View();
@@ -150,6 +189,29 @@ namespace SS.ExpenseApp.Web.Controllers
             }
         }
 
+        // POST: Approve/5
+        [Authorize]
+        public ActionResult Reimburse(long id)
+        {
+            try
+            {
+                var expense = expenses.Where(e => e.Id == id).ToList().FirstOrDefault();
+                if (expense != null)
+                {
+                    expense.ApprovalStatus = Expense.Status.Reimbursed;
+                    expenseService.UpdateExpense(expense);
+                    expenseService.SaveExpense();
+                }
+
+                // TODO: Add update logic here
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+        }
+
         [NonAction]
         private long GetCurrentUserId()
         {
@@ -169,9 +231,10 @@ namespace SS.ExpenseApp.Web.Controllers
         [NonAction]
         private string GetCurrentRole()
         {
-            string role;
+            string role = null;
             var identity = (ClaimsIdentity)User.Identity;
-            role = identity.FindFirst(ClaimTypes.Role).Value;
+            if (identity.FindFirst(ClaimTypes.Role) != null)
+                role = identity.FindFirst(ClaimTypes.Role).Value;
 
             if (role != null)
             {
